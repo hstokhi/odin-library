@@ -36,6 +36,14 @@ function displayLibrary(library) {
         div.dataset.arrayIndex = i
         div.textContent = library[i].info()
 
+        const button = document.createElement('button')
+        const removeButton = document.createElement('button')
+        div.appendChild(button)
+        div.appendChild(removeButton)
+        button.textContent = 'Read/Unread'
+        removeButton.textContent = 'Remove from Library'
+        
+
     }    
 }
 
