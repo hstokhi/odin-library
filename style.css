@@ -1,1 +1,39 @@
-h1 {text-align: center;}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap');
+* {
+    font-family: Cinzel, cursive, 'Times New Roman', Times, serif;
+}
+h1 {
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+.container > div {
+    border: 1px solid black
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+}
+.button-container {
+    margin: 24px;
+    display: flex;
+    justify-content: center;
+}
+button {
+    display: flex;
+    align-items: center;
+}
+button:hover {
+    box-shadow: 0 0 5px grey;
+}
+img {
+    height: 24px;
+    width: 24px;
+}
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+    border: 1px solid black;
+    padding: 10px;
+}

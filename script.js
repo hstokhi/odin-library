@@ -1,5 +1,5 @@
 
-let library = []
+let library = [new Book('giving tree', 'shel', 50, true), new Book('pachinko', 'lee', 360, true), new Book('eragon', 'someone', 400, false)]
 
 function Book(title, author, pages, read) {
     this.title = title
@@ -15,18 +15,35 @@ function Book(title, author, pages, read) {
     }
 }
 
-function addBookToLibrary() {
-    const title = prompt('Title:')
+function addBookToLibrary(title, author, pages, read) {
+    /*const title = prompt('Title:')
     const author = prompt('Author:')
     const pages = parseInt(prompt('Number of pages:'))
     if (prompt("Read? (Yes or No):").toLowerCase() == "yes") {
         let read = true
-    } else {let read = false}
+    } else {let read = false}*/
 
     library.push(new Book(title, author, pages, read))
 }
 
 const container = document.querySelector('.container')
-function displayLibrary() {
-    library.forEach()
+
+function displayLibrary(library) {
+    clearBox(container)
+    for (let i = 0; i < library.length; i++) {
+        const div = document.createElement('div')
+        container.appendChild(div)
+        div.dataset.arrayIndex = i
+        div.textContent = library[i].info()
+
+    }    
 }
+
+function clearBox(container) {
+    while(container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+}
+
+
+displayLibrary(library)
