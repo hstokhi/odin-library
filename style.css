@@ -2,10 +2,7 @@
 * {
     font-family: Cinzel, cursive, 'Times New Roman', Times, serif;
 }
-h1 {
-    text-align: center;
-    border-bottom: 1px solid black;
-}
+
 .container > div {
     border: 1px solid black
 }
@@ -14,10 +11,15 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
 }
-.button-container {
-    margin: 24px;
+.header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    margin-bottom: 2vh;
+}
+.header button {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 button {
     display: flex;

@@ -9,10 +9,9 @@
     <title>Library</title>
 </head>
 <body>
-    <h1>Library</h1>
-    <div class="container"></div>
-    <div class="button-container">
-        <button><img src="./images/add-new.png" alt="">add book</button>
+    <div class="header">
+        <h1>Library</h1>
+        <button>+ add book</button>
     </div>
     <div class="form-container">
         <form action="">
@@ -21,12 +20,13 @@
             <label for="pages"># of pages:</label><input type="number" id="pages">
             <div class="radio-container">
                 <label for="read">read?</label><br>
-                <input type="radio" name="read" id="yes">
+                <input type="radio" name="read" id="yes" value="yes">
                 <label for="yes">yes</label><br>
-                <input type="radio" name="read" id="no"><label for="no">no</label>
+                <input type="radio" name="read" id="no" value="no"><label for="no">no</label>
             </div>
-            <button type="submit">submit</button>
+            <button type="button" id="submit-form">submit</button>
         </form>
     </div>
+    <div class="container"></div>
 </body>
 </html>
