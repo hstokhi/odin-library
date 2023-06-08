@@ -1,5 +1,5 @@
 
-let library = [new Book('giving tree', 'shel', 50, true), new Book('pachinko', 'lee', 360, true), new Book('eragon', 'someone', 400, false)]
+let library = []
 
 function Book(title, author, pages, read) {
     this.title = title
@@ -7,7 +7,7 @@ function Book(title, author, pages, read) {
     this.pages = pages
     this.read = read
     this.info = function() {
-        if (read) {
+        if (this.read) {
             return `${title} by ${author}, ${pages} pages, read`
         } else {
             return `${title} by ${author}, ${pages} pages, not read yet`
@@ -21,7 +21,7 @@ function addBookToLibrary(title, author, pages, read) {
 
 const container = document.querySelector('.container')
 
-function displayLibrary(library) {
+function displayLibrary() {
     clearBox(container)
     for (let i = 0; i < library.length; i++) {
         const div = document.createElement('div')
@@ -29,17 +29,32 @@ function displayLibrary(library) {
         div.dataset.arrayIndex = i
         div.textContent = library[i].info()
 
-        const button = document.createElement('button')
+        const readButton = document.createElement('button')
         const removeButton = document.createElement('button')
-        div.appendChild(button)
+        div.appendChild(readButton)
         div.appendChild(removeButton)
-        button.textContent = 'Read/Unread'
-        button.classList.add('read-unread')
+        readButton.textContent = 'Read/Unread'
+        readButton.classList.add('read-unread')
+        readButton.addEventListener('click', () => {
+            console.log(library[div.dataset.arrayIndex])
+            library[div.dataset.arrayIndex].toggleRead()
+            displayLibrary()
+            console.log(library[div.dataset.arrayIndex])
+        })
         removeButton.textContent = 'Remove from Library'
         removeButton.classList.add('remove-button')
-        removeButton.dataset.arrayIndex = i
+        removeButton.addEventListener('click', () => {
+            console.log(library)
+            library.splice(div.dataset.arrayIndex, 1)
+            displayLibrary()
+            console.log(library)
+        })
+
     }    
 }
+
+displayLibrary()
+closeForm()
 
 function clearBox(container) {
     while(container.firstChild) {
@@ -65,30 +80,41 @@ function submitForm() {
     if (document.querySelector('input[name="read"]:checked').value == 'yes') {
         addBookToLibrary(document.getElementById('title').value, document.getElementById('author').value, document.getElementById('pages').value, true)} 
         else {addBookToLibrary(document.getElementById('title').value, document.getElementById('author').value, document.getElementById('pages').value, false)}
-    displayLibrary(library)
+    displayLibrary()
 }
 
 document.getElementById('submit-form').addEventListener('click', (event) => {
     event.preventDefault()
     submitForm()
+    document.querySelectorAll('input').forEach(input => input.value = "")
+    document.querySelectorAll('input[name="read"]').forEach(radio => radio.checked = false)
     closeForm()
 })
 
-function removeFromLibrary(index) {
+const removeFromLibrary = function(index) {
     library.splice(index, 1)
-    displayLibrary(library)
+    displayLibrary()
 }
-document.querySelectorAll('.remove-button').forEach( (button) => {
-    button.addEventListener('click', removeFromLibrary(button.dataset.arrayIndex))
-})
+Book.prototype.toggleRead = function() {
+    this.read = !this.read
+}
+/* Didn't end up using this part of the code but keeping for learning purposes 
 
-document.querySelectorAll('.read-unread').forEach( (button) => {
-    button.addEventListener('click', (event) => {
-        let index = button.parentNode.dataset.arrayIndex
-        if (library[index].read == false) {library[index].read = true} else { library[index].read = false}
-        displayLibrary(library)
+let removeButtons = document.querySelectorAll('.remove-button')
+removeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        console.log(library[button.dataset.arrayIndex])
+        removeFromLibrary(button.dataset.arrayIndex)
+        })
     })
-})
 
-displayLibrary(library)
-closeForm()
+let readButtons = document.querySelectorAll('.read-unread')
+readButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        console.log(library[button.parentNode.dataset.arrayIndex].read)
+        let index = button.parentNode.dataset.arrayIndex
+        if (library[index].read == false) {library[index].read = true} else {library[index].read = false}
+        console.log(library[button.parentNode.dataset.arrayIndex].read)
+        displayLibrary()
+    })
+})*/

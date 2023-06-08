@@ -1,15 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
+
 * {
-    font-family: Cinzel, cursive, 'Times New Roman', Times, serif;
+    font-family: 'Bubblegum Sans', Sans, 'Times New Roman', Times, serif;
 }
 
 .container > div {
-    border: 1px solid black
+    border: 1px solid black;
+    border-radius: 5px;
 }
 .container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     grid-template-rows: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 5%;
 }
 .header {
     display: flex;
@@ -36,6 +39,8 @@ img {
     display: flex;
     flex-direction: column;
     background-color: lightblue;
-    border: 1px solid black;
+    border: 1px solid lightblue;
+    border-radius: 5px;
     padding: 10px;
+    margin-bottom: 10px;
 }
