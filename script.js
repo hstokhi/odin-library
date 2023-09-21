@@ -13,10 +13,14 @@ const StorageController = class {
     }
 
     get(key) {
-        const storedLibrary = localStorage.getItem(key)
-        JSON.parse(storedLibrary).forEach(book => {
-            library.push(new Book(book.title, book.author, book.pages, book.read))
-        })
+        try {
+            const storedLibrary = localStorage.getItem(key)
+            JSON.parse(storedLibrary).forEach(book => {
+            library.push(new Book(book.title, book.author, book.pages, book.read))})
+        }
+        catch(e) {
+            console.log('Nothing in Local Storage. You may begin your library from scratch')
+        }
         return library
     }
 
