@@ -3,6 +3,27 @@ let library = []
 
 const container = document.querySelector('.container')
 
+const StorageController = class {
+    add (key, value) {
+        localStorage.setItem(key, JSON.stringify(value))
+    }
+
+    clear() {
+        localStorage.clear()
+    }
+
+    get(key) {
+        const storedLibrary = localStorage.getItem(key)
+        JSON.parse(storedLibrary).forEach(book => {
+            library.push(new Book(book.title, book.author, book.pages, book.read))
+        })
+        return library
+    }
+
+}
+
+const storage = new StorageController()
+
 const Book = class {
     constructor(title, author, pages, read) {
         this.title = title
@@ -21,24 +42,26 @@ const Book = class {
 
     toggleRead () {
         this.read = !this.read
+        storage.add('library', library)
     }
 }
 
 const LibraryController = class {
     addBookToLibrary(title, author, pages, read) {
-    library.push(new Book(title, author, pages, read))
+        library.push(new Book(title, author, pages, read))
+        storage.add('library', library)
     }
-    removeFromLibrary = function(index) {
-    library.splice(index, 1)
-    displayLibrary()
+    removeFromLibrary(index) {
+        library.splice(index, 1)
+        storage.clear()
+        storage.add('library', library)
+        formControl.displayLibrary(library)
+    }
 }
-}
+
+const librarian = new LibraryController()
 
 const DisplayController = class {
-    constructor() {
-        this.libraryController = new LibraryController();
-    }
-
     openForm() {
         document.querySelector('.form-container').style.display = 'block'
     }
@@ -56,12 +79,13 @@ const DisplayController = class {
     
     submitForm() {
         if (document.getElementById('yes').checked === true) {
-            this.libraryController.addBookToLibrary(document.getElementById('title').value, document.getElementById('author').value, document.getElementById('pages').value, true)
+            librarian.addBookToLibrary(document.getElementById('title').value, document.getElementById('author').value, document.getElementById('pages').value, true)
         } 
         else {
-            this.libraryController.addBookToLibrary(document.getElementById('title').value, document.getElementById('author').value, document.getElementById('pages').value, false)
+            librarian.addBookToLibrary(document.getElementById('title').value, document.getElementById('author').value, document.getElementById('pages').value, false)
         }
-        this.displayLibrary()
+        
+        this.displayLibrary(library)
     }
     
     submitButton() {
@@ -79,31 +103,33 @@ const DisplayController = class {
             container.removeChild(container.firstChild);
         }
     }
-    displayLibrary() {
+    displayLibrary(list) {
         this.clearBox(container)
 
-        for (let i = 0; i < library.length; i++) {
+        for (let i = 0; i < list.length; i++) {
             const div = document.createElement('div')
             container.appendChild(div)
             div.dataset.arrayIndex = i
-            div.textContent = library[i].info
+            div.textContent = list[i].info
     
             const readButton = document.createElement('button')
             const removeButton = document.createElement('button')
             div.appendChild(readButton)
             div.appendChild(removeButton)
+
             readButton.textContent = 'Read/Unread'
             readButton.classList.add('read-unread')
             readButton.addEventListener('click', () => {
-                library[div.dataset.arrayIndex].toggleRead()
-                this.displayLibrary()
+                list[i].toggleRead()
+                this.displayLibrary(list)
             })
+
             removeButton.textContent = 'Remove from Library'
             removeButton.classList.add('remove-button')
             removeButton.addEventListener('click', () => {
-                library.splice(div.dataset.arrayIndex, 1)
-                this.displayLibrary()
+                librarian.removeFromLibrary(i)
             })
+            
     
         }    
     }
@@ -113,3 +139,4 @@ const formControl = new DisplayController()
 formControl.closeForm()
 formControl.addButtonListener()
 formControl.submitButton()
+formControl.displayLibrary(storage.get('library'))
