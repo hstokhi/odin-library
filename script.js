@@ -93,12 +93,11 @@ const DisplayController = class {
     }
     
     submitButton() {
-        document.getElementById('submit-form').addEventListener('click', (event) => {
-        event.preventDefault()
-        this.submitForm()
-        document.querySelectorAll('input').forEach(input => input.value = "")
-        document.querySelectorAll('input[name="read"]').forEach(radio => radio.checked = false)
-        this.closeForm()
+        document.querySelector('form').addEventListener('submit', (event) => {
+            this.submitForm()
+            document.querySelectorAll('input').forEach(input => input.value = "")
+            document.querySelectorAll('input[name="read"]').forEach(radio => radio.checked = false)
+            this.closeForm()
         })
     }
 
